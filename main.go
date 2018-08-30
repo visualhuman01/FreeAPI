@@ -20,11 +20,15 @@ type DB_Config struct {
 	Pwd      string `json:"pwd"`
 }
 
+func (p *DB_Config)GetDbConnStr() string {
+	return p.Uid + ":" + p.Pwd + "@tcp(" + p.Ipaddr + ":" + p.Port + ")/" + p.Database + "?charset=utf8mb4"
+}
+
 func main() {
 	app := iris.New()
 	app.RegisterView(iris.HTML("./views", ".html"))
 	app.Get("/", func(ctx iris.Context) {
-		connstr := Stu_Config.DB.Uid + ":" + Stu_Config.DB.Pwd + "@tcp(" + Stu_Config.DB.Ipaddr + ":" + Stu_Config.DB.Port + ")/" + Stu_Config.DB.Database + "?charset=utf8mb4"
+		connstr := Stu_Config.DB.GetDbConnStr()
 		db := MysqlOperate{ConnStr: connstr}
 		rows := db.QueryData("select * from eca_course_schedules")
 		for i, row := range rows {
