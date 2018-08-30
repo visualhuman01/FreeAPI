@@ -1,0 +1,11 @@
+{
+  "db": {
+    "dbtype": "mysql",
+    "ipaddr": "139.219.13.4",
+    "port": "3306",
+    "database": "eca",
+    "uid": "root",
+    "pwd": "123456"
+  },
+  "port": ":8888"
+}
