@@ -2,76 +2,22 @@ package main
 
 import (
 	"github.com/kataras/iris"
-	"io/ioutil"
-	"encoding/json"
+	"FreeAPI/common"
+	"FreeAPI/controllers"
 )
 
-type Config struct {
-	DB   DB_Config
-	Port string `json:"port"`
-}
-
-type DB_Config struct {
-	Dbtype   string `json:"dbtype"`
-	Ipaddr   string `json:"ipaddr"`
-	Port     string `json:"port"`
-	Database string `json:"database"`
-	Uid      string `json:"uid"`
-	Pwd      string `json:"pwd"`
-}
-
-func (p *DB_Config)GetDbConnStr() string {
-	return p.Uid + ":" + p.Pwd + "@tcp(" + p.Ipaddr + ":" + p.Port + ")/" + p.Database + "?charset=utf8mb4"
-}
-
 func main() {
-	app := iris.New()
-	app.RegisterView(iris.HTML("./views", ".html"))
-	app.Get("/", func(ctx iris.Context) {
-		connstr := Stu_Config.DB.GetDbConnStr()
-		db := MysqlOperate{ConnStr: connstr}
-		rows := db.QueryData("select * from eca_course_schedules")
-		for i, row := range rows {
-			println("row:", i)
-			for _, col := range row {
-				if col != nil {
-					print(string(col.([]byte)), ",")
-				} else {
-					print("null,")
-				}
-			}
-			println()
-		}
-		ctx.ViewData("message", "Hello world!")
-		ctx.View("hello.html")
-	})
-	app.Run(iris.Addr(Stu_Config.Port))
+	common.APP.RegisterView(iris.HTML("./views", ".html"))
+	common.APP.StaticWeb("/", "./static") // serve our custom javascript code
+	common.APP.Get("/",controllers.HelloController)
+	common.APP.Any("/test",controllers.TestController)
+	common.APP.Any("/test/{id}", controllers.Test123Controller)
+	common.APP.Run(iris.Addr(common.Stu_Config.Port))
 }
-
-var Stu_Config = Config{}
 
 func init() {
-	JsonParse := NewJsonStruct()
-	JsonParse.Load("./config.json", &Stu_Config)
+	JsonParse := common.NewJsonStruct()
+	JsonParse.Load("./config.json", &common.Stu_Config)
 }
 
-type JsonStruct struct {
-}
 
-func NewJsonStruct() *JsonStruct {
-	return &JsonStruct{}
-}
-
-func (jst *JsonStruct) Load(filename string, v interface{}) {
-	//ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return
-	}
-
-	//读取的数据为json格式，需要进行解码
-	err = json.Unmarshal(data, v)
-	if err != nil {
-		return
-	}
-}

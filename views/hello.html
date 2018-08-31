@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </head>
 <body>
-{{.message}}
+<h2>{{.message}}</h2>
+<input type="button" id="test" class="btn btn-default" value="ok">
+<script>
+    $("#test").click(function () {
+        var data = {};
+        data.name = 'test';
+        data.list = [];
+        data.list[0] = 1;
+        data.list[1] = 2;
+        data.list[2] = 3;
+        data.game = {}
+        data.game.tt = "t123"
+        $.ajax({
+            type: 'POST',
+            url: '/test',
+            data: JSON.stringify(data),
+            contentType : "application/json",
+            dataType: 'json',
+            success: function (msg) {
+                alert(msg);
+            },
+            error:function (err) {
+                alert(err)
+            }
+        });
+    })
+</script>
 </body>
 </html>
