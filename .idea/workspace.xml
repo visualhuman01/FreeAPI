@@ -2,45 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73d3e0df-1ce8-4401-8136-9f7c7003ea4d" name="Default" comment="更新">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/global.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/json.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controllers/MeController.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/json_model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/AddDBSource.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FreeAPI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FreeAPI.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-grid.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-grid.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-grid.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-grid.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-grid.min.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-reboot.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-reboot.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-reboot.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap-reboot.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap-reboot.min.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/bootstrap.min.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.bundle.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.bundle.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.bundle.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.bundle.min.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bootstrap.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/bootstrap.min.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.min.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.min.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.slim.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.slim.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.slim.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.slim.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/jquery.slim.min.map" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/jquery.slim.min.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/hello.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/hello.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="12" column="32" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="32" />
+            <state relative-caret-position="76">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -73,20 +35,8 @@
       <file leaf-file-name="MeController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/MeController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
+            <state relative-caret-position="1140">
               <caret line="64" selection-start-line="64" selection-end-line="64" />
-              <folding>
-                <element signature="e#20#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddDBSource.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/AddDBSource.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -94,20 +44,17 @@
       <file leaf-file-name="hello.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/hello.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="34" column="11" selection-start-line="14" selection-start-column="8" selection-end-line="34" selection-end-column="11" />
+            <state relative-caret-position="722">
+              <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="database.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="database.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/database.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-214">
-              <caret line="22" column="26" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="26" />
-              <folding>
-                <element signature="e#16#85#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="551">
+              <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -174,7 +121,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="FreeAPI" type="cbb8eebc:String" user="FreeAPI" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="FreeAPI" type="cbb8eebc:String" user="FreeAPI" />
+              <item name="css" type="cbb8eebc:String" user="css" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -206,38 +168,12 @@
               <item name="FreeAPI" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
-            <path>
-              <item name="FreeAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="GOPATH &lt;FreeAPI&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
-            </path>
-            <path>
-              <item name="FreeAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="GOPATH &lt;FreeAPI&gt;" type="20ee2d1f:SyntheticLibraryElementNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="FreeAPI" type="cbb8eebc:String" user="FreeAPI" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="FreeAPI" type="cbb8eebc:String" user="FreeAPI" />
-              <item name="css" type="cbb8eebc:String" user="css" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -256,7 +192,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2908046" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -360,6 +296,8 @@
       <workItem from="1535621602859" duration="1356000" />
       <workItem from="1535628103418" duration="9805000" />
       <workItem from="1535638934869" duration="14378000" />
+      <workItem from="1535929208079" duration="61000" />
+      <workItem from="1535929326465" duration="64000" />
     </task>
     <task id="LOCAL-00001" summary="更新">
       <created>1535621847181</created>
@@ -372,15 +310,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37851000" />
+    <option name="totallyTimeSpent" value="37976000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32876712" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -392,7 +328,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32872927" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -400,7 +336,8 @@
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39917126" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39917126" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32876712" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="LuaCheck" order="7" />
@@ -412,11 +349,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/../github.com/kataras/iris/websocket/client.js" />
-      </list>
-    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -432,19 +364,16 @@
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/common/database.go</url>
           <line>32</line>
-          <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/controllers/MeController.go</url>
           <line>44</line>
-          <properties />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/common/database.go</url>
           <line>13</line>
-          <properties />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
@@ -482,201 +411,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_0/templates/hi.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_1/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_1/templates/mypage.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/overview/templates/hi.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/hello-world/main_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_3/templates/page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/views/hello/name.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/views/hello/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/websocket/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-399" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/websocket/views/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-399" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/hello-world/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-741" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/overview/views/user/profile.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/overview/views/user/create_verification.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="6" column="29" lean-forward="true" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/overview/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1331" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/route-state/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-362" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-456" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/context-view-data/templates/layouts/layout.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/lib/vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-741" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/todo/service.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/chat/websockets.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/chat/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="44" column="25" selection-start-line="37" selection-start-column="22" selection-end-line="37" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/connectionlist/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/connectionlist/templates/client.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-57" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/structuring/bootstrap/views/index.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/structuring/bootstrap/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/session-controller/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-95">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/web_mvc_diagram.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/folder_structure.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-627" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/controllers/hello_controller.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-342" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/hero/overview/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-627" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/hello-world/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="27" column="34" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_0/templates/hi.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_1/templates/layout.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_1/templates/mypage.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/overview/templates/hi.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/hello-world/main_test.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/template_html_3/templates/page.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/views/hello/name.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/views/hello/index.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/websocket/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/websocket/views/index.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/hello-world/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/overview/views/user/profile.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/overview/views/user/create_verification.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/overview/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/route-state/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/routing/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/view/context-view-data/templates/layouts/layout.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/lib/vue" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/js/app.js" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/public/index.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/todo/service.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/chat/websockets.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/chat/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/tutorial/vuejs-todo-mvc/src/web/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/connectionlist/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/websocket/connectionlist/templates/client.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/structuring/bootstrap/views/index.html" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/structuring/bootstrap/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/session-controller/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/web_mvc_diagram.png" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/folder_structure.png" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/mvc/overview/web/controllers/hello_controller.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/hero/overview/main.go" />
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/_examples/hello-world/main.go" />
     <entry file="file://$PROJECT_DIR$/common/json.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-39">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="15" />
-          <folding>
-            <element signature="e#16#56#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/context/context.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="681" column="4" selection-start-line="681" selection-start-column="4" selection-end-line="681" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../github.com/kataras/iris/context/context.go" />
     <entry file="file://$PROJECT_DIR$/views/hello.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="34" column="11" selection-start-line="14" selection-start-column="8" selection-end-line="34" selection-end-column="11" />
+        <state relative-caret-position="722">
+          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/global.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="7" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/common/global.go" />
     <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -694,13 +483,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/AddDBSource.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/views/AddDBSource.html" />
     <entry file="file://$PROJECT_DIR$/model/json_model.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -710,21 +493,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/MeController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
+        <state relative-caret-position="1140">
           <caret line="64" selection-start-line="64" selection-end-line="64" />
-          <folding>
-            <element signature="e#20#56#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/database.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-214">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="26" />
-          <folding>
-            <element signature="e#16#85#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="551">
+          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
         </state>
       </provider>
     </entry>

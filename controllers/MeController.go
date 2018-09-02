@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/kataras/iris"
-	"FreeAPI/model"
-	"FreeAPI/common"
+	"../model"
+	"../common"
 )
 
 func HelloController(ctx iris.Context) {

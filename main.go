@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/kataras/iris"
-	"FreeAPI/common"
-	"FreeAPI/controllers"
+	"./common"
+	"./controllers"
 )
 
 func main() {
