@@ -1,11 +1,11 @@
 {
   "db": {
     "dbtype": "mysql",
-    "ipaddr": "139.219.13.4",
+    "ipaddr": "127.0.0.1",
     "port": "3306",
-    "database": "eca",
+    "database": "bx_freeapi",
     "uid": "root",
-    "pwd": "123456"
+    "pwd": "bai198341"
   },
   "port": ":8888"
 }

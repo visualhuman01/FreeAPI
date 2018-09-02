@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加数据源</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    数据源名称<input type="text" id="txt_name">
+</div>
+<div>
+    IP地址<input type="text" id="txt_ipaddr">
+</div>
+<div>
+    端口<input type="text" id="txt_port">
+</div>
+<div>
+    数据库名<input type="text" id="txt_database">
+</div>
+<div>
+    用户名<input type="text" id="txt_uid">
+</div>
+<div>
+    密码<input type="text" id="txt_pwd">
+</div>
+<div>
+    <input type="button" id="btn_ok" value="ok">
+</div>
+<script>
+    $("#btn_ok").click(function () {
+        var data = {};
+        data.name = $("#txt_name").val();
+        data.ipaddr = $("#txt_ipaddr").val();
+        data.port = $("#txt_port").val();
+        data.database = $("#txt_database").val();
+        data.uid = $("#txt_uid").val();
+        data.pwd = $("#txt_pwd").val();
+        $.ajax({
+            type: 'POST',
+            url: '/adddbsource',
+            data: JSON.stringify(data),
+            contentType : "application/json",
+            dataType: 'json',
+            success: function (msg) {
+                alert(msg);
+            },
+            error:function (err) {
+                alert(err)
+            }
+        });
+    });
+</script>
+</body>
+</html>

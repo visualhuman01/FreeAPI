@@ -10,20 +10,29 @@ type MysqlOperate struct {
 	ConnStr	string
 }
 
+func (p *MysqlOperate)InsertData(sqlstr string) int64 {
+	db, err := sql.Open("mysql", p.ConnStr)
+	defer db.Close()
+	checkErr(err)
+	res, err := db.Exec(sqlstr)
+	checkErr(err)
+	id, err := res.LastInsertId()
+	checkErr(err)
+	return id
+}
 func (p *MysqlOperate)Exec(sqlstr string) sql.Result {
 	db, err := sql.Open("mysql", p.ConnStr)
 	defer db.Close()
-	if err != nil {
-		panic(err)
-	}
+	checkErr(err)
 	res, err := db.Exec(sqlstr)
-	if err != nil {
-		fmt.Println(err)
-		panic(err)
-	}
+	checkErr(err)
 	return res
 }
-
+func checkErr(err error)  {
+	if err != nil{
+		panic(err)
+	}
+}
 func (p *MysqlOperate)QueryData(sqlstr string) map[int][]interface{} {
 	db, err := sql.Open("mysql", p.ConnStr)
 	if err != nil {

@@ -10,8 +10,12 @@ func main() {
 	common.APP.RegisterView(iris.HTML("./views", ".html"))
 	common.APP.StaticWeb("/", "./static") // serve our custom javascript code
 	common.APP.Get("/",controllers.HelloController)
-	common.APP.Any("/test",controllers.TestController)
-	common.APP.Any("/test/{id}", controllers.Test123Controller)
+	common.APP.Get("/adddbsource", func(ctx iris.Context) {
+		ctx.View("AddDBSource.html")
+	})
+	common.APP.Post("/adddbsource",controllers.AddDBSourceController)
+	//common.APP.Any("/test",controllers.TestController)
+	//common.APP.Any("/test/{id}", controllers.Test123Controller)
 	common.APP.Run(iris.Addr(common.Stu_Config.Port))
 }
 
