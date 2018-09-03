@@ -14,6 +14,10 @@ func main() {
 		ctx.View("AddDBSource.html")
 	})
 	common.APP.Post("/adddbsource",controllers.AddDBSourceController)
+	common.APP.Get("/dbsourceList", func(ctx iris.Context) {
+		ctx.View("DBSourceList.html")
+	})
+	common.APP.Post("/dbsourceList",controllers.GetDBSourceListController)
 	//common.APP.Any("/test",controllers.TestController)
 	//common.APP.Any("/test/{id}", controllers.Test123Controller)
 	common.APP.Run(iris.Addr(common.Stu_Config.Port))

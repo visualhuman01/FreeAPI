@@ -7,6 +7,7 @@ import (
 )
 
 type MysqlOperate struct {
+	DBtype	string
 	ConnStr	string
 }
 
@@ -33,8 +34,8 @@ func checkErr(err error)  {
 		panic(err)
 	}
 }
-func (p *MysqlOperate)QueryData(sqlstr string) map[int][]interface{} {
-	db, err := sql.Open("mysql", p.ConnStr)
+func (p *MysqlOperate)QueryData(sqlstr string) map[int]map[string] interface{} {
+	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {
 		panic(err)
 	}
@@ -51,13 +52,16 @@ func (p *MysqlOperate)QueryData(sqlstr string) map[int][]interface{} {
 	for j := range values {
 		scanArgs[j] = &values[j]
 	}
-	record := make(map[int][]interface{})
+	record := make(map[int]map[string]interface{})
 	i := 0
 	for rows.Next() {
 		//将行数据保存到record字典
 		err = rows.Scan(scanArgs...)
-		record[i] = make([]interface{}, len(columns))
-		copy(record[i],values)
+		row := make(map[string]interface{})
+		for j,col := range values{
+			row[columns[j]] = col
+		}
+		record[i] = row
 		i++
 	}
 	return  record

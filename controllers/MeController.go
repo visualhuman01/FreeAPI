@@ -45,7 +45,7 @@ func AddDBSourceController(ctx iris.Context) {
 	m := model.DBSource_Param{}
 	ctx.ReadJSON(&m)
 	connstr := common.Stu_Config.DB.GetDbConnStr()
-	db := common.MysqlOperate{ConnStr: connstr}
+	db := common.MysqlOperate{ DBtype:"mysql", ConnStr: connstr}
 	sqlstr := "insert into dbconfig_source set " +
 		"dbconfig_source_name='" + m.Name + "'," +
 		"dbconfig_source_ipaddr='" + m.Ipaddr + "'," +
@@ -63,4 +63,14 @@ func AddDBSourceController(ctx iris.Context) {
 		res.Msg = "error"
 	}
 	ctx.JSON(res)
+}
+
+func GetDBSourceListController(ctx iris.Context) {
+	m := model.DBSource_Param{}
+	ctx.ReadJSON(&m)
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{ DBtype:"mysql", ConnStr: connstr}
+	sqlstr := "select * from dbconfig_source"
+	data := db.QueryData(sqlstr)
+	ctx.JSON(data)
 }

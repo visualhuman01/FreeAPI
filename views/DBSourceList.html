@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据源列表</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link href="bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
+    <script src="bootstrap-table/bootstrap-table.js"></script>
+    <script src="bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+</head>
+<body>
+<div id="toolbar" class="btn-group">
+    <button id="btn_add" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+    </button>
+    <button id="btn_del" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+    </button>
+</div>
+<table id="tb_List" data-filter-control="true"></table>
+<script>
+    $(function () {
+        var $table = $("#tb_List");
+        $table.bootstrapTable({
+            url: '/dbsourceList',
+            method: 'post', //请求方式（*）
+            striped: true,
+            sidePagenation: 'server',
+            idField: 'id',
+            columns: [
+                {
+                    field: 'ck',
+                    checkbox: true
+                }, {
+                    field: 'name',
+                    title: '名称'
+                }, {
+                    field: 'status',
+                    title: '状态',
+                    formatter: function (value, row, index) {
+                        return value == 0 ? "停用" : "启用";
+                    }
+                }, {
+                    title: '操作',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+    function actionFormatter(value, row, index) {
+        var formatValue = '';
+        formatValue += '<a class="info" href="#">查看</a>|<a class="edit" href="#">编辑</a>';
+        return formatValue;
+    }
+    var selectdata = null;
+    //表格  - 操作 - 事件
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            window.location.href = "/Home/RoleInfo?t=1&id=" + row['id'];
+        },
+        'click .info': function (e, value, row, index) {
+            window.location.href = "/Home/RoleInfo?t=2&id=" + row['id'];
+        }
+    }
+</script>
+</body>
+</html>
