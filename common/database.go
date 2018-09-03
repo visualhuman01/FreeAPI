@@ -35,6 +35,33 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
+func (p *MysqlOperate) QueryRow(sqlstr string) map[string]interface{} {
+	db, err := sql.Open(p.DBtype, p.ConnStr)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	rows, err := db.Query(sqlstr)
+	defer rows.Close()
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+	columnstype, _ := rows.ColumnTypes()
+	scanArgs := make([]interface{}, len(columnstype))
+	values := make([]interface{}, len(columnstype))
+	for j := range values {
+		scanArgs[j] = &values[j]
+	}
+	rows.Next()
+	//将行数据保存到record字典
+	err = rows.Scan(scanArgs...)
+	row := make(map[string]interface{})
+	for j, col := range values {
+		row[columnstype[j].Name()] = getData(columnstype[j].DatabaseTypeName(),col)
+	}
+	return row
+}
 func (p *MysqlOperate) QueryData(sqlstr string) []map[string]interface{} {
 	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {
@@ -60,45 +87,35 @@ func (p *MysqlOperate) QueryData(sqlstr string) []map[string]interface{} {
 		err = rows.Scan(scanArgs...)
 		row := make(map[string]interface{})
 		for j, col := range values {
-			switch columnstype[j].DatabaseTypeName() {
-			case "INT":
-				c_str := string(col.([]byte))
-				c_int, _ := strconv.Atoi(c_str)
-				row[columnstype[j].Name()] = c_int
-				break
-			case "VARCHAR":
-				if col !=nil {
-					row[columnstype[j].Name()] = string(col.([]byte))
-				}else{
-					row[columnstype[j].Name()] = ""
-				}
-				break
-			case "TEXT":
-				if col !=nil {
-					row[columnstype[j].Name()] = string(col.([]byte))
-				}else{
-					row[columnstype[j].Name()] = ""
-				}
-				break
-			case "DATETIME":
-				if col !=nil {
-					row[columnstype[j].Name()] = string(col.([]byte))
-				}else{
-					row[columnstype[j].Name()] = ""
-				}
-				break
-			default:
-				row[columnstype[j].Name()] = col
-				break
-			}
-
+			row[columnstype[j].Name()] = getData(columnstype[j].DatabaseTypeName(),col)
 		}
 		record[i] = row
 		i++
 	}
-	res := make([]map[string]interface{},i)
+	res := make([]map[string]interface{}, i)
 	for k, v := range record {
 		res[k] = v
+	}
+	return res
+}
+func getData(t string, col interface{}) interface{} {
+	var res interface{}
+	switch t {
+	case "TINYINT","INT":
+		c_str := string(col.([]byte))
+		c_int, _ := strconv.Atoi(c_str)
+		res = c_int
+		break
+	case "VARCHAR","TEXT","DATETIME":
+		if col != nil {
+			res = string(col.([]byte))
+		} else {
+			res = ""
+		}
+		break
+	default:
+		res = col
+		break
 	}
 	return res
 }

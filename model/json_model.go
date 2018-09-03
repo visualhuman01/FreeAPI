@@ -14,4 +14,7 @@ type Result_Data struct {
 	Code	int
 	Msg		string
 }
+type DBBuild_Param struct {
+	Id	int `json:"id"`
+}
 

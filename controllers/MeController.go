@@ -4,6 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"../model"
 	"../common"
+	"strconv"
 )
 
 func HelloController(ctx iris.Context) {
@@ -76,4 +77,20 @@ func GetDBSourceListController(ctx iris.Context) {
 	sqlstr := "select * from dbconfig_source"
 	data := db.QueryData(sqlstr)
 	ctx.JSON(data)
+}
+func DBBuild(ctx iris.Context) {
+	m := model.DBBuild_Param{}
+	ctx.ReadJSON(&m)
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: "mysql", ConnStr: connstr}
+	sqlstr := "select * from dbconfig_table where table_id = " + strconv.Itoa(m.Id)
+	data1 := db.QueryRow(sqlstr)
+	tabname := data1["table_name"].(string)
+	sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed from dbconfig_field a inner join dbconfig_datatype b " +
+		"on a.datatype_id = b.datatype_id where a.table_id = " + strconv.Itoa(m.Id)
+	data2 := db.QueryData(sqlstr)
+	mysql_sql := common.MysqlSQL{}
+	sqlstr = mysql_sql.CreateTable(tabname,data2)
+	res := model.Result_Data{Code: 200, Msg: "ok"}
+	ctx.JSON(res)
 }

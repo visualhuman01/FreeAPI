@@ -13,6 +13,9 @@
     <button id="btn_add" type="button" class="btn btn-default">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
     </button>
+    <button id="btn_build" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>生成
+    </button>
 </div>
 <div class="modal fade" id="AddSource" tabindex="-1" role="dialog" aria-labelledby="AddSourceLabel">
     <div class="modal-dialog" role="document">
@@ -138,6 +141,23 @@
     }
     $("#btn_add").click(function () {
         $('#AddSource').modal();
+    });
+    $("#btn_build").click(function () {
+        var data = {}
+        data.id = 1
+        $.ajax({
+            type: 'POST',
+            url: '/dbbuild',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (res) {
+                alert(res)
+            },
+            error: function (err) {
+                alert(err)
+            }
+        });
     });
     $("#btn_add_submit").click(function () {
         var data = {};

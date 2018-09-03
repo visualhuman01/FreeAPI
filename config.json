@@ -5,7 +5,7 @@
     "port": "3306",
     "database": "freeapi_db",
     "uid": "root",
-    "pwd": ""
+    "pwd": "bai198341"
   },
   "port": ":8888"
 }
