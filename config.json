@@ -3,9 +3,9 @@
     "dbtype": "mysql",
     "ipaddr": "127.0.0.1",
     "port": "3306",
-    "database": "bx_freeapi",
+    "database": "freeapi_db",
     "uid": "root",
-    "pwd": "bai198341"
+    "pwd": ""
   },
   "port": ":8888"
 }

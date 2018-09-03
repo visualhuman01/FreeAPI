@@ -14,26 +14,50 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
     </button>
 </div>
-<div class="modal fade" id="myEdit" tabindex="-1" role="dialog" aria-labelledby="myEditLabel">
+<div class="modal fade" id="AddSource" tabindex="-1" role="dialog" aria-labelledby="AddSourceLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title" id="AddSourceLabel">新增</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myEditLabel">新增</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="edit_name">角色名称</label>
-                    <input type="text" name="edit_name" class="form-control" id="edit_name" placeholder="角色名称">
+                    <label for="source_name">名称</label>
+                    <input type="text" name="source_name" class="form-control" id="source_name" placeholder="角色名称">
                 </div>
                 <div class="form-group">
-                    <label for="edit_remark">备注</label>
-                    <input type="text" name="edit_remark" class="form-control" id="edit_remark" placeholder="备注">
+                    <label for="source_type">类型</label>
+                    <input type="text" name="source_type" class="form-control" id="source_type" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_ipaddr">地址</label>
+                    <input type="text" name="source_ipaddr" class="form-control" id="source_ipaddr" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_port">端口</label>
+                    <input type="text" name="source_port" class="form-control" id="source_port" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_database">库名称</label>
+                    <input type="text" name="source_database" class="form-control" id="source_database" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_uid">用户名</label>
+                    <input type="text" name="source_uid" class="form-control" id="source_uid" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_pwd">密码</label>
+                    <input type="text" name="source_pwd" class="form-control" id="source_pwd" placeholder="备注">
+                </div>
+                <div class="form-group">
+                    <label for="source_des">备注</label>
+                    <input type="text" name="source_des" class="form-control" id="source_des" placeholder="备注">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
-                <button type="button" id="btn_edit_submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+                <button type="button" id="btn_add_submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
             </div>
         </div>
     </div>
@@ -47,20 +71,47 @@
             method: 'post', //请求方式（*）
             striped: true,
             sidePagenation: 'server',
-            idField: 'id',
+            idField: 'source_id',
             columns: [
                 {
                     field: 'ck',
                     checkbox: true
                 }, {
-                    field: 'name',
+                    field: 'source_name',
                     title: '名称'
                 }, {
-                    field: 'status',
+                    field: 'source_type',
+                    title: '类型'
+                }, {
+                    field: 'source_ipaddr',
+                    title: '地址'
+                }, {
+                    field: 'source_port',
+                    title: '端口'
+                }, {
+                    field: 'source_database',
+                    title: '库名称'
+                }, {
+                    field: 'source_uid',
+                    title: '用户名'
+                }, {
+                    field: 'source_pwd',
+                    title: '密码'
+                }, {
+                    field: 'source_des',
+                    title: '描述'
+                }, {
+                    field: 'source_status',
                     title: '状态',
                     formatter: function (value, row, index) {
                         return value == 0 ? "停用" : "启用";
                     }
+                }, {
+                    field: 'source_createtime',
+                    title: '创建时间'
+                }, {
+                    field: 'source_buildtime',
+                    title: '最后生成时间'
                 }, {
                     title: '操作',
                     formatter: 'actionFormatter',
@@ -86,8 +137,34 @@
         }
     }
     $("#btn_add").click(function () {
-        $("#myEditLabel").text("新增");
-        $('#myEdit').modal();
+        $('#AddSource').modal();
+    });
+    $("#btn_add_submit").click(function () {
+        var data = {};
+        data.source_name = $("#source_name").val();
+        data.source_type = $("#source_type").val();
+        data.source_ipaddr = $("#source_ipaddr").val();
+        data.source_port = $("#source_port").val();
+        data.source_database = $("#source_database").val();
+        data.source_uid = $("#source_uid").val();
+        data.source_pwd = $("#source_pwd").val();
+        data.source_des = $("#source_des").val();
+        $.ajax({
+            type: 'POST',
+            url: '/adddbsource',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (res) {
+                if(res.Code == 200)
+                    window.location.reload();
+                else
+                    alert(res.Msg)
+            },
+            error: function (err) {
+                alert(err)
+            }
+        });
     });
 </script>
 </body>

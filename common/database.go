@@ -4,14 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"strconv"
 )
 
 type MysqlOperate struct {
-	DBtype	string
-	ConnStr	string
+	DBtype  string
+	ConnStr string
 }
 
-func (p *MysqlOperate)InsertData(sqlstr string) int64 {
+func (p *MysqlOperate) InsertData(sqlstr string) int64 {
 	db, err := sql.Open("mysql", p.ConnStr)
 	defer db.Close()
 	checkErr(err)
@@ -21,7 +22,7 @@ func (p *MysqlOperate)InsertData(sqlstr string) int64 {
 	checkErr(err)
 	return id
 }
-func (p *MysqlOperate)Exec(sqlstr string) sql.Result {
+func (p *MysqlOperate) Exec(sqlstr string) sql.Result {
 	db, err := sql.Open("mysql", p.ConnStr)
 	defer db.Close()
 	checkErr(err)
@@ -29,12 +30,12 @@ func (p *MysqlOperate)Exec(sqlstr string) sql.Result {
 	checkErr(err)
 	return res
 }
-func checkErr(err error)  {
-	if err != nil{
+func checkErr(err error) {
+	if err != nil {
 		panic(err)
 	}
 }
-func (p *MysqlOperate)QueryData(sqlstr string) map[int]map[string] interface{} {
+func (p *MysqlOperate) QueryData(sqlstr string) []map[string]interface{} {
 	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {
 		panic(err)
@@ -46,9 +47,9 @@ func (p *MysqlOperate)QueryData(sqlstr string) map[int]map[string] interface{} {
 		fmt.Println(err)
 		panic(err)
 	}
-	columns, _ := rows.Columns()
-	scanArgs := make([]interface{}, len(columns))
-	values := make([]interface{}, len(columns))
+	columnstype, _ := rows.ColumnTypes()
+	scanArgs := make([]interface{}, len(columnstype))
+	values := make([]interface{}, len(columnstype))
 	for j := range values {
 		scanArgs[j] = &values[j]
 	}
@@ -58,11 +59,46 @@ func (p *MysqlOperate)QueryData(sqlstr string) map[int]map[string] interface{} {
 		//将行数据保存到record字典
 		err = rows.Scan(scanArgs...)
 		row := make(map[string]interface{})
-		for j,col := range values{
-			row[columns[j]] = col
+		for j, col := range values {
+			switch columnstype[j].DatabaseTypeName() {
+			case "INT":
+				c_str := string(col.([]byte))
+				c_int, _ := strconv.Atoi(c_str)
+				row[columnstype[j].Name()] = c_int
+				break
+			case "VARCHAR":
+				if col !=nil {
+					row[columnstype[j].Name()] = string(col.([]byte))
+				}else{
+					row[columnstype[j].Name()] = ""
+				}
+				break
+			case "TEXT":
+				if col !=nil {
+					row[columnstype[j].Name()] = string(col.([]byte))
+				}else{
+					row[columnstype[j].Name()] = ""
+				}
+				break
+			case "DATETIME":
+				if col !=nil {
+					row[columnstype[j].Name()] = string(col.([]byte))
+				}else{
+					row[columnstype[j].Name()] = ""
+				}
+				break
+			default:
+				row[columnstype[j].Name()] = col
+				break
+			}
+
 		}
 		record[i] = row
 		i++
 	}
-	return  record
+	res := make([]map[string]interface{},i)
+	for k, v := range record {
+		res[k] = v
+	}
+	return res
 }

@@ -45,14 +45,17 @@ func AddDBSourceController(ctx iris.Context) {
 	m := model.DBSource_Param{}
 	ctx.ReadJSON(&m)
 	connstr := common.Stu_Config.DB.GetDbConnStr()
-	db := common.MysqlOperate{ DBtype:"mysql", ConnStr: connstr}
+	db := common.MysqlOperate{DBtype: "mysql", ConnStr: connstr}
 	sqlstr := "insert into dbconfig_source set " +
-		"dbconfig_source_name='" + m.Name + "'," +
-		"dbconfig_source_ipaddr='" + m.Ipaddr + "'," +
-		"dbconfig_source_port=" + m.Port + "," +
-		"dbconfig_source_database='" + m.Database + "'," +
-		"dbconfig_source_uid='" + m.Uid + "'," +
-		"dbconfig_source_pwd='" + m.Pwd + "'"
+		"source_name='" + m.Source_name + "'," +
+		"source_type=" + m.Source_type + "," +
+		"source_ipaddr='" + m.Source_ipaddr + "'," +
+		"source_port=" + m.Source_port + "," +
+		"source_database='" + m.Source_database + "'," +
+		"source_uid='" + m.Source_uid + "'," +
+		"source_pwd='" + m.Source_pwd + "'," +
+		"source_des='" + m.Source_des + "'," +
+		"source_status=1,source_createtime=now()"
 	id := db.InsertData(sqlstr)
 	res := model.Result_Data{}
 	if id > 0 {
@@ -69,7 +72,7 @@ func GetDBSourceListController(ctx iris.Context) {
 	m := model.DBSource_Param{}
 	ctx.ReadJSON(&m)
 	connstr := common.Stu_Config.DB.GetDbConnStr()
-	db := common.MysqlOperate{ DBtype:"mysql", ConnStr: connstr}
+	db := common.MysqlOperate{DBtype: "mysql", ConnStr: connstr}
 	sqlstr := "select * from dbconfig_source"
 	data := db.QueryData(sqlstr)
 	ctx.JSON(data)
