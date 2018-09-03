@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+{{template "header.html"}}
 </head>
 <body>
 <h2>{{.message}}</h2>
@@ -24,12 +22,12 @@
             type: 'POST',
             url: '/test',
             data: JSON.stringify(data),
-            contentType : "application/json",
+            contentType: "application/json",
             dataType: 'json',
             success: function (msg) {
                 alert(msg);
             },
-            error:function (err) {
+            error: function (err) {
                 alert(err)
             }
         });

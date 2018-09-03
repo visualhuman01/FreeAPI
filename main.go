@@ -9,6 +9,15 @@ import (
 func main() {
 	common.APP.RegisterView(iris.HTML("./views", ".html"))
 	common.APP.StaticWeb("/", "./static") // serve our custom javascript code
+	RegisterRoute()
+	common.APP.Run(iris.Addr(common.Stu_Config.Port))
+}
+
+func init() {
+	JsonParse := common.NewJsonStruct()
+	JsonParse.Load("./config.json", &common.Stu_Config)
+}
+func RegisterRoute()  {
 	common.APP.Get("/",controllers.HelloController)
 	common.APP.Get("/adddbsource", func(ctx iris.Context) {
 		ctx.View("AddDBSource.html")
@@ -20,12 +29,5 @@ func main() {
 	common.APP.Post("/dbsourceList",controllers.GetDBSourceListController)
 	//common.APP.Any("/test",controllers.TestController)
 	//common.APP.Any("/test/{id}", controllers.Test123Controller)
-	common.APP.Run(iris.Addr(common.Stu_Config.Port))
 }
-
-func init() {
-	JsonParse := common.NewJsonStruct()
-	JsonParse.Load("./config.json", &common.Stu_Config)
-}
-
 

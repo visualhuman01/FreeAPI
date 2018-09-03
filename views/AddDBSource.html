@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>添加数据源</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+{{template "header.html"}}
 </head>
 <body>
 <div>
@@ -42,12 +40,12 @@
             type: 'POST',
             url: '/adddbsource',
             data: JSON.stringify(data),
-            contentType : "application/json",
+            contentType: "application/json",
             dataType: 'json',
             success: function (msg) {
                 alert(msg);
             },
-            error:function (err) {
+            error: function (err) {
                 alert(err)
             }
         });
