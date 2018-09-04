@@ -4,6 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"./common"
 	"./controllers"
+	"./apiengine"
 )
 
 func main() {
@@ -12,10 +13,11 @@ func main() {
 	RegisterRoute()
 	common.APP.Run(iris.Addr(common.Stu_Config.Port))
 }
-
 func init() {
 	JsonParse := common.NewJsonStruct()
 	JsonParse.Load("./config.json", &common.Stu_Config)
+	apiengine := apiengine.ApiEngine{}
+	apiengine.Init()
 }
 func RegisterRoute()  {
 	common.APP.Get("/",controllers.HelloController)
@@ -29,7 +31,7 @@ func RegisterRoute()  {
 	common.APP.Post("/dbsourceList",controllers.GetDBSourceListController)
 	common.APP.Post("/builddb",controllers.BuildDBController)
 	common.APP.Post("/buildtable",controllers.BuildTableController)
-	common.APP.Post("/API/{aid}",controllers.APIController)
+	common.APP.Post("/api/{aid}",controllers.APIController)
 	//common.APP.Any("/test",controllers.TestController)
 	//common.APP.Any("/test/{id}", controllers.Test123Controller)
 }

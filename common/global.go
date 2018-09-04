@@ -17,6 +17,7 @@ type DbConfig struct {
 }
 
 var Stu_Config = Config{}
+var DBSource_Config map[int]DbConfig
 var APP = iris.New()
 func (p *DbConfig)GetDbConnStr() string {
 	return p.Uid + ":" + p.Pwd + "@tcp(" + p.Ipaddr + ":" + p.Port + ")/" + p.Database + "?charset=utf8mb4"

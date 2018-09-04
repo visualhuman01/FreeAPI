@@ -144,10 +144,10 @@
     });
     $("#btn_build").click(function () {
         var data = {}
-        data.id = 1
+        data.source_id = 1
         $.ajax({
             type: 'POST',
-            url: '/dbbuild',
+            url: '/builddb',
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: 'json',

@@ -35,17 +35,16 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
-func (p *MysqlOperate) QueryRow(sqlstr string) map[string]interface{} {
+func (p *MysqlOperate) QueryRow(sqlstr string) (map[string]interface{},error) {
 	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {
-		panic(err)
+		return nil,err
 	}
 	defer db.Close()
 	rows, err := db.Query(sqlstr)
 	defer rows.Close()
 	if err != nil {
-		fmt.Println(err)
-		panic(err)
+		return nil,err
 	}
 	columnstype, _ := rows.ColumnTypes()
 	scanArgs := make([]interface{}, len(columnstype))
@@ -60,19 +59,18 @@ func (p *MysqlOperate) QueryRow(sqlstr string) map[string]interface{} {
 	for j, col := range values {
 		row[columnstype[j].Name()] = getData(columnstype[j].DatabaseTypeName(),col)
 	}
-	return row
+	return row,nil
 }
-func (p *MysqlOperate) QueryData(sqlstr string) []map[string]interface{} {
+func (p *MysqlOperate) QueryData(sqlstr string) ([]map[string]interface{},error) {
 	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {
-		panic(err)
+		return nil,err
 	}
 	defer db.Close()
 	rows, err := db.Query(sqlstr)
 	defer rows.Close()
 	if err != nil {
-		fmt.Println(err)
-		panic(err)
+		return nil,err
 	}
 	columnstype, _ := rows.ColumnTypes()
 	scanArgs := make([]interface{}, len(columnstype))
@@ -96,7 +94,7 @@ func (p *MysqlOperate) QueryData(sqlstr string) []map[string]interface{} {
 	for k, v := range record {
 		res[k] = v
 	}
-	return res
+	return res,nil
 }
 func getData(t string, col interface{}) interface{} {
 	var res interface{}
