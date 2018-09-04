@@ -7,16 +7,28 @@ import (
 
 type Api_Interface struct {
 	Method  string
-	Params  []Api_Params
-	Operate []Api_Operate
+	Input   []Api_Input
+	Operate map[int]Api_Operate
+	Output  Api_Output
 }
-type Api_Params struct {
-	Name 		string
-	SqlSymbol 	string
+type Api_Input struct {
+	Name string
 }
+type Api_Output struct {
+	Name       string
+	Type       int //1:obj,2:array,3:value
+	OperateId  int
+	ReturnName string
+	Children   []Api_Output
+}
+
+func (p *Api_Input) GetSymbol() string {
+	return "@" + p.Name
+}
+
 type Api_Operate struct {
-	DBSource_Id	int
-	SqlFormat 	string
+	DBSource_Id int
+	SqlFormat   string
 }
 type ApiEngine struct {
 }
@@ -32,9 +44,12 @@ func (p *ApiEngine) loadBDSource() {
 	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
 	//读取数据源配置
 	sqlstr := "select * from dbconfig_source"
-	data := db.QueryData(sqlstr)
+	data, err := db.QueryData(sqlstr)
+	if err != nil {
+		panic(err)
+	}
 	common.DBSource_Config = make(map[int]common.DbConfig)
-	for _,v := range data{
+	for _, v := range data {
 		dbconfig := common.DbConfig{}
 		dbconfig.Dbtype = "mysql"
 		dbconfig.Ipaddr = v["source_ipaddr"].(string)
@@ -47,18 +62,22 @@ func (p *ApiEngine) loadBDSource() {
 
 }
 func (p *ApiEngine) test() {
-	testapi := Api_Interface{}
-	testapi.Method = "Post"
-	testparam := Api_Params{}
-	testparam.Name = "id"
-	testparam.SqlSymbol = "@id"
-	testapi.Params = make([]Api_Params, 1)
-	testapi.Params[0] = testparam
-	testopt := Api_Operate{}
-	testopt.DBSource_Id = 1
-	testopt.SqlFormat = "select * from test1 f1=@id"
-	testapi.Operate = make([]Api_Operate, 1)
-	testapi.Operate[0] = testopt
+	testapi := Api_Interface{Method: "Post"}
+	testparam := Api_Input{Name: "id"}
+	testapi.Input = make([]Api_Input, 1)
+	testapi.Input[0] = testparam
+	testopt := Api_Operate{DBSource_Id: 1, SqlFormat: "select * from test1 where f1=@id"}
+	testapi.Operate = make(map[int]Api_Operate)
+	testapi.Operate[1] = testopt
+	testoutput := Api_Output{Name: "#", Type: 1, OperateId: 0, ReturnName: ""}
+	testoutput1 := Api_Output{Name: "fid", Type: 3, OperateId: 1, ReturnName: "f1"}
+	testoutput2 := Api_Output{Name: "fname", Type: 3, OperateId: 1, ReturnName: "f2"}
+	testoutput3 := Api_Output{Name: "ftime", Type: 3, OperateId: 1, ReturnName: "f3"}
+	testoutput.Children = make([]Api_Output, 3)
+	testoutput.Children[0] = testoutput1
+	testoutput.Children[1] = testoutput2
+	testoutput.Children[2] = testoutput3
+	testapi.Output = testoutput
 	ApiInterface = make(map[string]Api_Interface)
 	ApiInterface["test"] = testapi
 }

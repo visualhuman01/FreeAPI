@@ -100,19 +100,19 @@ func BuildDBController(ctx iris.Context) {
 		res.Code = 500
 		res.Msg = err.Error()
 		ctx.JSON(res)
-		return 
+		return
 	}
 	for _, v := range data1 {
 		tabid := v["table_id"].(int)
 		tabname := v["table_name"].(string)
 		sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed from dbconfig_field a inner join dbconfig_datatype b " +
 			"on a.datatype_id = b.datatype_id where a.table_id = " + strconv.Itoa(tabid)
-		data2,err := db.QueryData(sqlstr)
+		data2, err := db.QueryData(sqlstr)
 		if err != nil {
 			res.Code = 500
 			res.Msg = err.Error()
 			ctx.JSON(res)
-			return 
+			return
 		}
 		mysql_sql := common.MysqlSQL{}
 		sqlstr = mysql_sql.DropTable(tabname)
@@ -131,22 +131,22 @@ func BuildTableController(ctx iris.Context) {
 	db_tmp := common.MysqlOperate{DBtype: connstr_tmp.Dbtype, ConnStr: connstr_tmp.GetDbConnStr()}
 	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
 	sqlstr := "select * from dbconfig_table where table_id = " + strconv.Itoa(m.Table_id)
-	data1,err := db.QueryRow(sqlstr)
+	data1, err := db.QueryRow(sqlstr)
 	if err != nil {
 		res.Code = 500
 		res.Msg = err.Error()
 		ctx.JSON(res)
-		return 
+		return
 	}
 	tabname := data1["table_name"].(string)
 	sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed from dbconfig_field a inner join dbconfig_datatype b " +
 		"on a.datatype_id = b.datatype_id where a.table_id = " + strconv.Itoa(m.Table_id)
-	data2,err := db.QueryData(sqlstr)
+	data2, err := db.QueryData(sqlstr)
 	if err != nil {
 		res.Code = 500
 		res.Msg = err.Error()
 		ctx.JSON(res)
-		return 
+		return
 	}
 	mysql_sql := common.MysqlSQL{}
 	sqlstr = mysql_sql.DropTable(tabname)
@@ -163,27 +163,78 @@ func APIController(ctx iris.Context) {
 	if err != nil {
 		res.Code = 500
 		res.Msg = err.Error()
+		ctx.JSON(res)
+		return
 	}
 	var dat map[string]interface{}
 	if err := json.Unmarshal(rawData, &dat); err == nil {
-		for _, v := range api.Operate {
-			sqlstr := ""
-			for _, vv := range api.Params {
-				tmpdat := dat[vv.Name]
-				switch tmpdat.(type) {
-				case :
-					
-				}
-				sqlstr = strings.Replace(v.SqlFormat, vv.SqlSymbol, strconv.FormatFloat(tmpdat.(float64), 'f', -1, 64), -1)
-			}
-			println(sqlstr)
+		output_tmp, err := apiOperate(api, dat)
+		if err != nil {
+			res.Code = 500
+			res.Msg = err.Error()
+			ctx.JSON(res)
+			return
+		}
+		switch api.Output.Type {
+		case 1:
+			output_data := make(map[string]interface{})
+
+			break
+		case 2:
+			break
 		}
 	} else {
 		res.Code = 500
 		res.Msg = err.Error()
+		ctx.JSON(res)
+		return
 	}
-	println(string(rawData))
 	ctx.JSON(res)
+}
+func apiOutput(output apiengine.Api_Output,data map[int][]map[string]interface{})(int,map[string]interface{},
+[]map[string]interface{},interface{})  {
+	switch output.Type {
+	case 1:
+		output_data := make(map[string]interface{})
+		for _,v := range output.Children{
+			t,d1,d2,d3:=apiOutput(v,data)
+			if t == 1{
+				output[output.]
+			}
+		}
+		break
+	case 2:
+		break
+	case 3:
+		dd := data[output.OperateId]
+		val = dd
+		return 3,nil,nil,
+	}
+}
+func apiOperate(api apiengine.Api_Interface, dat map[string]interface{}) (map[int][]map[string]interface{}, error) {
+	operate_output := make(map[int][]map[string]interface{})
+	for k, v := range api.Operate {
+		sqlstr := ""
+		for _, vv := range api.Input {
+			tmpdat := dat[vv.Name]
+			switch tmpdat.(type) {
+			case string:
+				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), tmpdat.(string), -1)
+				break
+			case float64:
+				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), strconv.FormatFloat(tmpdat.(float64), 'f', -1, 64), -1)
+				break
+			}
+		}
+		connstr_tmp := common.DBSource_Config[v.DBSource_Id]
+		db_tmp := common.MysqlOperate{DBtype: connstr_tmp.Dbtype, ConnStr: connstr_tmp.GetDbConnStr()}
+		data_tmp, err := db_tmp.QueryData(sqlstr)
+		if err != nil {
+			return nil, err
+		}
+		operate_output[k] = data_tmp
+	}
+	return operate_output, nil
 }
 func print_json(m interface{}) {
 	switch vv := m.(type) {
