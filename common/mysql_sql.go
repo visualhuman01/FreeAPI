@@ -5,9 +5,13 @@ import "strconv"
 type MysqlSQL struct {
 }
 
+func (p *MysqlSQL)DropTable(tabname string) string {
+	sqlstr := "drop table if exists " + tabname + ";"
+	return  sqlstr
+}
 func (p *MysqlSQL) CreateTable(tabname string, field []map[string]interface{}) string {
-	sqlstr := "drop table if exists " + tabname + ";" +
-		"create table " + tabname + "("
+
+	sqlstr := "create table " + tabname + "("
 	pk := ""
 	for _, v := range field {
 		sqlstr += v["field_name"].(string) + " " + v["datatype_name"].(string)

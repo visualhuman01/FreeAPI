@@ -14,7 +14,10 @@ type Result_Data struct {
 	Code	int
 	Msg		string
 }
-type DBBuild_Param struct {
-	Id	int `json:"id"`
+type BuildDB_Param struct {
+	Source_id	int `json:"source_id"`
 }
-
+type BuildTable_Param struct {
+	Source_id	int `json:"source_id"`
+	Table_id	int `json:"table_id"`
+}

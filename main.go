@@ -27,7 +27,9 @@ func RegisterRoute()  {
 		ctx.View("DBSourceList.html")
 	})
 	common.APP.Post("/dbsourceList",controllers.GetDBSourceListController)
-	common.APP.Post("/dbbuild",controllers.DBBuild)
+	common.APP.Post("/builddb",controllers.BuildDBController)
+	common.APP.Post("/buildtable",controllers.BuildTableController)
+	common.APP.Post("/API/{aid}",controllers.APIController)
 	//common.APP.Any("/test",controllers.TestController)
 	//common.APP.Any("/test/{id}", controllers.Test123Controller)
 }
