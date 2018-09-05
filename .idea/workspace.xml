@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="73d3e0df-1ce8-4401-8136-9f7c7003ea4d" name="Default" comment="更新">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FreeAPI.exe" beforeDir="false" afterPath="$PROJECT_DIR$/FreeAPI.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apiengine/engine.go" beforeDir="false" afterPath="$PROJECT_DIR$/apiengine/engine.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/MeController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/MeController.go" afterDir="false" />
-    </list>
+    <list default="true" id="73d3e0df-1ce8-4401-8136-9f7c7003ea4d" name="Default" comment="更新" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -332,7 +326,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84766000" />
+    <option name="totallyTimeSpent" value="85147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />

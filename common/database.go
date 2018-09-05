@@ -60,6 +60,7 @@ func (p *MysqlOperate) QueryRow(sqlstr string) (map[string]interface{},error) {
 	}
 	return row,nil
 }
+
 func (p *MysqlOperate) QueryData(sqlstr string) ([]map[string]interface{},error) {
 	db, err := sql.Open(p.DBtype, p.ConnStr)
 	if err != nil {

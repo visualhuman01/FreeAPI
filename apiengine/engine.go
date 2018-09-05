@@ -11,9 +11,11 @@ type Api_Interface struct {
 	Operate map[int]Api_Operate
 	Output  Api_Output
 }
+
 type Api_Input struct {
 	Name string
 }
+
 type Api_Output struct {
 	Name       string
 	Type       int //1:obj,2:array,3:value

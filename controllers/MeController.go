@@ -193,23 +193,23 @@ func APIController(ctx iris.Context) {
 }
 func apiOutput(output apiengine.Api_Output,data map[int][]map[string]interface{})(int,map[string]interface{},
 []map[string]interface{},interface{})  {
-	switch output.Type {
-	case 1:
-		output_data := make(map[string]interface{})
-		for _,v := range output.Children{
-			t,d1,d2,d3:=apiOutput(v,data)
-			if t == 1{
-				output[output.]
-			}
-		}
-		break
-	case 2:
-		break
-	case 3:
-		dd := data[output.OperateId]
-		val = dd
-		return 3,nil,nil,
-	}
+	//switch output.Type {
+	//case 1:
+	//	output_data := make(map[string]interface{})
+	//	for _,v := range output.Children{
+	//		t,d1,d2,d3:=apiOutput(v,data)
+	//		if t == 1{
+	//			output[output.]
+	//		}
+	//	}
+	//	break
+	//case 2:
+	//	break
+	//case 3:
+	//	dd := data[output.OperateId]
+	//	val = dd
+	//	return 3,nil,nil,
+	//}
 }
 func apiOperate(api apiengine.Api_Interface, dat map[string]interface{}) (map[int][]map[string]interface{}, error) {
 	operate_output := make(map[int][]map[string]interface{})
