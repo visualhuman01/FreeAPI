@@ -156,6 +156,11 @@ func BuildTableController(ctx iris.Context) {
 	ctx.JSON(res)
 }
 func APIController(ctx iris.Context) {
+	ctx.ResponseWriter().Header().Add("Access-Control-Allow-Origin","*")
+	ctx.ResponseWriter().Header().Add("Access-Control-Allow-Headers","x-requested-with")
+	ctx.ResponseWriter().Header().Add("content-type","application/json")
+	//ctx.ResponseWriter().Header().Add("Access-Control-Allow-Credentials","true")
+	//ctx.ResponseWriter().Header().Add("Set-Cookie","company_auth=8A86YEGQQsS%252BJMXstQTIpqB78LBCLf9uaPb%252BV62h%2f6bHHMUdMx4Ge0EGl4XY2W4IZb9PCWzQon%2fxHZf8XZM8Y30BJHEB4%2ffAitm%2fwB6laKR3lhpminXvrcL8L9p2b4z%2fAaXKyzK3mnhEC%2fi6i7hc3aqTNVoVc5w9nT2PE%252BfpHcf8EFsKIXYHXg%3d%3d; expires=Sat, 08-Sep-2018 08:23:03 GMT; path=/")
 	res := model.Result_Data{Code: 200, Msg: "ok"}
 	aid := ctx.Params().Get("aid")
 	api := apiengine.ApiInterface[aid]
@@ -183,7 +188,7 @@ func APIController(ctx iris.Context) {
 		case 4:
 			_, _, _, output_data := apiOutput(api.Output, output_tmp, 0)
 			ctx.JSON(output_data)
-			break
+			return
 		}
 	} else {
 		res.Code = 500
@@ -204,10 +209,15 @@ func apiOutput(output apiengine.Api_Output, data map[int][]map[string]interface{
 	res_objarray = nil
 	switch output.Type {
 	case 1:
-		data_tmp := data[output.Parent.OperateId]
+		data_tmp := data[output.OperateId]
 		res_val = data_tmp[index][output.Fild]
 		break
 	case 2:
+		data_tmp := data[output.OperateId]
+		res_valarray = make([]interface{}, len(data_tmp))
+		for k,v := range data_tmp{
+			res_valarray[k] = v[output.Fild]
+		}
 		break
 	case 3:
 		res_obj = make(map[string]interface{})

@@ -31,8 +31,16 @@ func RegisterRoute()  {
 	common.APP.Post("/dbsourceList",controllers.GetDBSourceListController)
 	common.APP.Post("/builddb",controllers.BuildDBController)
 	common.APP.Post("/buildtable",controllers.BuildTableController)
+	common.APP.Options("/api/{aid}", func(ctx iris.Context) {
+		ctx.ResponseWriter().Header().Add("Access-Control-Allow-Origin","*")
+		ctx.ResponseWriter().Header().Add("Access-Control-Allow-Headers","Content-Type")
+		ctx.ResponseWriter().Header().Add("content-type","application/json")
+	})
 	common.APP.Post("/api/{aid}",controllers.APIController)
 	//common.APP.Any("/test",controllers.TestController)
 	//common.APP.Any("/test/{id}", controllers.Test123Controller)
+	common.APP.Get("/test", func(ctx iris.Context) {
+		ctx.View("testapi.html")
+	})
 }
 
