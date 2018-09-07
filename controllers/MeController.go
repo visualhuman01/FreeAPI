@@ -176,11 +176,13 @@ func APIController(ctx iris.Context) {
 			return
 		}
 		switch api.Output.Type {
-		case 1:
-			output_data := make(map[string]interface{})
-
-			break
-		case 2:
+		case 3:
+			_, _, output_data, _ := apiOutput(api.Output, output_tmp, 0)
+			ctx.JSON(output_data)
+			return
+		case 4:
+			_, _, _, output_data := apiOutput(api.Output, output_tmp, 0)
+			ctx.JSON(output_data)
 			break
 		}
 	} else {
@@ -191,25 +193,70 @@ func APIController(ctx iris.Context) {
 	}
 	ctx.JSON(res)
 }
-func apiOutput(output apiengine.Api_Output,data map[int][]map[string]interface{})(int,map[string]interface{},
-[]map[string]interface{},interface{})  {
-	//switch output.Type {
-	//case 1:
-	//	output_data := make(map[string]interface{})
-	//	for _,v := range output.Children{
-	//		t,d1,d2,d3:=apiOutput(v,data)
-	//		if t == 1{
-	//			output[output.]
-	//		}
-	//	}
-	//	break
-	//case 2:
-	//	break
-	//case 3:
-	//	dd := data[output.OperateId]
-	//	val = dd
-	//	return 3,nil,nil,
-	//}
+func apiOutput(output apiengine.Api_Output, data map[int][]map[string]interface{}, index int) (interface{}, []interface{}, map[string]interface{}, []map[string]interface{}) {
+	var res_val interface{}
+	var res_valarray []interface{}
+	var res_obj map[string]interface{}
+	var res_objarray []map[string]interface{}
+	res_val = nil
+	res_valarray = nil
+	res_obj = nil
+	res_objarray = nil
+	switch output.Type {
+	case 1:
+		data_tmp := data[output.Parent.OperateId]
+		res_val = data_tmp[index][output.Fild]
+		break
+	case 2:
+		break
+	case 3:
+		res_obj = make(map[string]interface{})
+		for _, v := range output.Children {
+			res1, res2, res3, res4 := apiOutput(*v, data, 0)
+			switch v.Type {
+			case 1:
+				res_obj[v.Name] = res1
+				break
+			case 2:
+				res_obj[v.Name] = res2
+				break
+			case 3:
+				res_obj[v.Name] = res3
+				break
+			case 4:
+				res_obj[v.Name] = res4
+				break
+			}
+		}
+		break
+	case 4:
+		data_tmp := data[output.OperateId]
+		res_objarray = make([]map[string]interface{}, len(data_tmp))
+		for k, _ := range data_tmp {
+			res_objarray[k] = make(map[string]interface{})
+		}
+		for _, v := range output.Children {
+			for k, _ := range res_objarray {
+				res1, res2, res3, res4 := apiOutput(*v, data, k)
+				switch v.Type {
+				case 1:
+					res_objarray[k][v.Name] = res1
+					break
+				case 2:
+					res_objarray[k][v.Name] = res2
+					break
+				case 3:
+					res_objarray[k][v.Name] = res3
+					break
+				case 4:
+					res_objarray[k][v.Name] = res4
+					break
+				}
+			}
+		}
+		break
+	}
+	return res_val, res_valarray, res_obj, res_objarray
 }
 func apiOperate(api apiengine.Api_Interface, dat map[string]interface{}) (map[int][]map[string]interface{}, error) {
 	operate_output := make(map[int][]map[string]interface{})
@@ -217,13 +264,16 @@ func apiOperate(api apiengine.Api_Interface, dat map[string]interface{}) (map[in
 		sqlstr := ""
 		for _, vv := range api.Input {
 			tmpdat := dat[vv.Name]
-			switch tmpdat.(type) {
-			case string:
-				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), tmpdat.(string), -1)
-				break
-			case float64:
-				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), strconv.FormatFloat(tmpdat.(float64), 'f', -1, 64), -1)
-				break
+			t, str, strarr := getJsonVal(tmpdat)
+			if (t == 1) {
+				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), str, -1)
+			} else {
+				tmpstr := ""
+				for _, v := range strarr {
+					tmpstr += v + ","
+				}
+				tmpstr = strings.TrimRight(tmpstr,",")
+				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), tmpstr, -1)
 			}
 		}
 		connstr_tmp := common.DBSource_Config[v.DBSource_Id]
@@ -235,6 +285,30 @@ func apiOperate(api apiengine.Api_Interface, dat map[string]interface{}) (map[in
 		operate_output[k] = data_tmp
 	}
 	return operate_output, nil
+}
+func getJsonVal(jsondata interface{}) (int, string, []string) {
+	var t int
+	var res_str string
+	var res_strarray []string
+	switch jsondata.(type) {
+	case string:
+		t = 1
+		res_str = jsondata.(string)
+		break
+	case float64:
+		t = 1
+		res_str = strconv.FormatFloat(jsondata.(float64), 'f', -1, 64)
+		break
+	case []interface{}:
+		t = 2
+		tmp := jsondata.([]interface{})
+		res_strarray = make([]string, len(tmp))
+		for k, v := range tmp {
+			_, s, _ := getJsonVal(v)
+			res_strarray[k] = s
+		}
+	}
+	return t, res_str, res_strarray
 }
 func print_json(m interface{}) {
 	switch vv := m.(type) {
