@@ -16,8 +16,7 @@ func main() {
 func init() {
 	JsonParse := common.NewJsonStruct()
 	JsonParse.Load("./config.json", &common.Stu_Config)
-	apiengine := apiengine.ApiEngine{}
-	apiengine.Init()
+	apiengine.Apiengine.Init()
 }
 func RegisterRoute()  {
 	common.APP.Get("/",controllers.HelloController)
