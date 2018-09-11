@@ -32,8 +32,8 @@ func (p *ApiEngine) loadInterface() {
 	p.ApiInterface = make(map[string]common.Api_Interface)
 	for _, v := range data {
 		interface_config := common.Api_Interface{Id: v["interface_id"].(int), Method: v["interface_method"].(int)}
-		//interface_config.Input = make(map[int]common.Api_Input)
-		//interface_config.Operate = make(map[int]common.Api_Operate)
+		interface_config.Input = make([]common.Api_Input, 0)
+		interface_config.Operate = make(map[int]common.Api_Operate)
 		p.ApiInterface[v["interface_name"].(string)] = interface_config
 	}
 }
@@ -46,13 +46,17 @@ func (p *ApiEngine) loadInput() {
 	if err != nil {
 		panic(err)
 	}
-	for _, v := range data {
-		for _, vv := range p.ApiInterface {
-			if vv.Id == v["interface_id"].(int) {
-				input_config := common.Api_Input{Name: v["input_name"].(string)}
-				vv.Input[v["input_id"].(int)] = input_config
+	for k, v := range p.ApiInterface {
+		input_tmp := make([]common.Api_Input,0)
+		for _, vv := range data {
+			if v.Id == vv["interface_id"].(int) {
+				input_config := common.Api_Input{Name: vv["input_name"].(string)}
+				input_tmp = append(input_tmp, input_config)
 			}
 		}
+		tmp := p.ApiInterface[k]
+		tmp.Input = input_tmp
+		p.ApiInterface[k] = tmp
 	}
 }
 func (p *ApiEngine) loadOperate() {
@@ -98,7 +102,9 @@ func (p *ApiEngine) loadOutput() {
 		}
 		output_data := p.iterOutput(tmp_data, nil, data_c)
 		if len(output_data) > 0 {
-			p.ApiInterface[k].Output = output_data[0]
+			tmp := p.ApiInterface[k]
+			tmp.Output = output_data[0]
+			p.ApiInterface[k] = tmp
 		}
 	}
 }
@@ -109,6 +115,7 @@ func (p *ApiEngine) iterOutput(data []map[string]interface{}, parent interface{}
 			tmp_output := common.Api_Output{}
 			tmp_output.Name = v["output_name"].(string)
 			tmp_output.Type = v["output_type"].(int)
+			tmp_output.OperateId = v["operate_id"].(int)
 			if v["field_name"] != nil {
 				tmp_output.Field = v["field_name"].(string)
 			}
@@ -137,28 +144,28 @@ func (p *ApiEngine) iterCondition(data []map[string]interface{}, parent interfac
 	for _, v := range data {
 		if v["condition_parent"] == parent {
 			tmp_condition := common.Api_Condition{}
-			if v["condition_type"] != nil{
+			if v["condition_type"] != nil {
 				tmp_condition.Type = v["condition_type"].(int)
 			}
-			if v["condition_grouptype"] != nil{
+			if v["condition_grouptype"] != nil {
 				tmp_condition.GroupType = v["condition_grouptype"].(int)
 			}
-			if v["field_name"] != nil{
+			if v["field_name"] != nil {
 				tmp_condition.Field = v["field_name"].(string)
 			}
-			if v["condition_operator"] != nil{
+			if v["condition_operator"] != nil {
 				tmp_condition.Operator = v["condition_operator"].(int)
 			}
-			if v["condition_val_type"] != nil{
+			if v["condition_val_type"] != nil {
 				tmp_condition.ValType = v["condition_val_type"].(int)
 			}
-			if v["condition_val_operateId"] != nil{
+			if v["condition_val_operateId"] != nil {
 				tmp_condition.ValOperateId = v["condition_val_operateId"].(int)
 			}
-			if v["val_field"] != nil{
+			if v["val_field"] != nil {
 				tmp_condition.ValField = v["val_field"].(string)
 			}
-			if v["condition_val_datatype"] != nil{
+			if v["condition_val_datatype"] != nil {
 				tmp_condition.ValDataType = v["condition_val_datatype"].(int)
 			}
 			tmp_condition.Val = v["condition_type"]
@@ -193,6 +200,7 @@ func (p *ApiEngine) loadBDSource() {
 		common.DBSource_Config[v["source_id"].(int)] = dbconfig
 	}
 }
+
 //func (p *ApiEngine) test() {
 //	testapi := common.Api_Interface{Method: 1}
 //	testparam := common.Api_Input{Name: "id"}

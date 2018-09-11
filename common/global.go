@@ -20,9 +20,9 @@ type DbConfig struct {
 type Api_Interface struct {
 	Id      int
 	Method  int //1:any,2:post,3:get
-	Input   map[int]Api_Input
+	Input   []Api_Input
 	Operate map[int]Api_Operate
-	Output  interface{}
+	Output  Api_Output
 }
 
 type Api_Input struct {
