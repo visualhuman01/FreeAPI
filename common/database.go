@@ -98,6 +98,10 @@ func (p *MysqlOperate) QueryData(sqlstr string) ([]map[string]interface{},error)
 }
 func getData(t string, col interface{}) interface{} {
 	var res interface{}
+	if col == nil{
+		res = nil
+		return res
+	}
 	switch t {
 	case "TINYINT","INT":
 		c_str := string(col.([]byte))

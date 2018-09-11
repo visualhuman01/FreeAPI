@@ -18,10 +18,11 @@ type DbConfig struct {
 	Pwd      string `json:"pwd"`
 }
 type Api_Interface struct {
-	Method  string
-	Input   []Api_Input
+	Id      int
+	Method  int //1:any,2:post,3:get
+	Input   map[int]Api_Input
 	Operate map[int]Api_Operate
-	Output  Api_Output
+	Output  interface{}
 }
 
 type Api_Input struct {
@@ -32,19 +33,18 @@ type Api_Output struct {
 	Name      string
 	Type      int //1:val,2:array_val,3:obj,4:array_obj
 	OperateId int
-	Fild      string
-	Children  []*Api_Output
-	Parent    *Api_Output
-	Condition *Api_Condition
+	Field     string
+	Children  []Api_Output
+	Condition interface{}
 }
 type Api_Condition struct {
 	Type         int //1:guroup,2:node
 	GroupType    int //1:and,2:or
-	Fild         string
+	Field        string
 	Operator     int //1:=,2:>,3:<,4:>=,5:<=,6:!=
 	ValType      int //1:val,2:OperateId
 	ValOperateId int
-	ValFild      string
+	ValField     string
 	ValDataType  int //1:number,2:string
 	Val          interface{}
 	Children     []*Api_Condition
