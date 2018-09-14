@@ -2,9 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>新建表</title>
+{{template "header.html"}}
+    <link href="/bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
+    <script src="/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link href="/bootstrap-select-1.13.2/dist/css/bootstrap-select.css" rel="stylesheet"/>
+    <script src="/bootstrap-select-1.13.2/dist/js/bootstrap-select.js"></script>
 </head>
 <body>
-$END$
+{{template "Menu.html"}}
+<div class="container theme-showcase" role="main" id="vueapp" style="padding-top:5px">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="table_name">表名称</label>
+            <input type="text" name="table_name" class="form-control" id="table_name" placeholder="表名称">
+        </div>
+        <div class="form-group">
+            <label for="table_des">描述</label>
+            <textarea name="table_des" id="table_des" class="form-control" placeholder="描述"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="field_List">字段</label>
+            <div class="panel-body" style="padding-bottom:0px;">
+                <div id="toolbar" class="btn-group">
+                    <button id="btn_add_field" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增字段
+                    </button>
+                </div>
+            </div>
+            <table id="field_List" data-filter-control="true"></table>
+        </div>
+        <div class="form-group">
+            <center>
+                <button type="button" class="btn btn-default"><span
+                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>取消
+                </button>
+                <button type="button" id="btn_add_table_ok" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span>确定
+                </button>
+            </center>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="field_name">字段名称</label>
+                    <input type="text" class="form-control" id="field_name" placeholder="字段名称">
+                </div>
+                <div class="form-group">
+                    <label for="field_datatype">字段类型</label>
+                    <select id="field_datatype" class="selectpicker form-control" noneSelectedText="请选择">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="field_len">字段长度</label>
+                    <input type="text" class="form-control" id="field_len" placeholder="字段长度">
+                </div>
+                <div class="form-group">
+                    <label for="field_default">默认值</label>
+                    <input type="text" class="form-control" id="field_default" placeholder="默认值">
+                </div>
+                <div class="form-group">
+                    <label for="field_attr">属性</label>
+                    <div class="form-control">
+                        <input type="checkbox" id="field_pk">主键
+                        <input type="checkbox" id="field_null">允许为空
+                        <input type="checkbox" id="field_auto">自动编号
+                        <input type="checkbox" id="field_unsigned">无符号
+                        <input type="checkbox" id="field_zero">从零开始
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="btn_add_field_ok" class="btn btn-primary"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var table_data = {};
+    table_data.field = [];
+    var datatype = {{.datatype}};
+    $(function () {
+        if (datatype != null) {
+            $(datatype).each(function (i, n) {
+                var obj = $('#field_datatype.selectpicker');
+                var str = "<option value=" + n.datatype_id + ">" + n.datatype_name + "</option>";
+                obj.append(str);
+            });
+            $('#field_datatype.selectpicker').selectpicker('refresh');
+            $('#field_datatype.selectpicker').selectpicker('render');
+        }
+        $('#field_datatype.selectpicker').on('changed.bs.select', function (e) {
+            var d = $('#field_datatype.selectpicker').selectpicker('val');
+            for (i = 0; i < datatype.length; i++) {
+                if (d == datatype[i].datatype_id) {
+                    $('#field_len').val(datatype[i].datatype_len);
+                    if (datatype[i].datatype_is_fixed == 1) {
+                        $("#field_len").attr("readonly", "readonly");
+                    } else {
+                        $("#field_len").removeAttr("readonly");
+                    }
+                    break;
+                }
+            }
+        });
+        var $table1 = $("#field_List");
+        $table1.bootstrapTable({
+            idField: 'field_id',
+            columns: [
+                {
+                    field: 'ck',
+                    checkbox: true
+                }, {
+                    field: 'field_name',
+                    title: '字段名称'
+                }, {
+                    field: 'datatype_name',
+                    title: '字段类型'
+                }, {
+                    field: 'field_len',
+                    title: '字段长度'
+                }, {
+                    field: 'field_default',
+                    title: '默认值'
+                }, {
+                    field: 'field_pk',
+                    title: '主键',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_null',
+                    title: '允许为空',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_auto',
+                    title: '自动编号',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_unsigned',
+                    title: '无符号',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_zero',
+                    title: '从零开始',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    title: '操作',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+
+    function actionFormatter(value, row, index) {
+        var formatValue = '';
+        formatValue += '<a class="field_del" href="#">删除</a>';
+        return formatValue;
+    }
+
+    //表格  - 操作 - 事件
+    window.actionEvents = {
+        'click .field_del': function (e, value, row, index) {
+            table_data.field.splice(index, 1);
+            $("#field_List").bootstrapTable('load', table_data.field);
+        }
+    }
+    $("#btn_add_field").click(function () {
+        $('#myModal').modal();
+    });
+    $('#btn_add_table_ok').click(function () {
+        table_data.source_id = {{.source_id}};
+        table_data.table_name = $('#table_name').val();
+        table_data.table_des = $('#table_des').val();
+        $.ajax({
+            type: "post",
+            url: "/addtable",
+            data: JSON.stringify(table_data),
+            dataType: "json",
+            success: function (json) {
+                window.location.href = "/tableList/" +{{.source_id}};
+            }
+        });
+    });
+    $('#btn_add_field_ok').click(function () {
+        tmp = {}
+        tmp.field_name = $('#field_name').val();
+        tmp.datatype_id = $('#field_datatype').selectpicker('val');
+        for (i = 0; i < datatype.length; i++) {
+            if (tmp.datatype_id == datatype[i].datatype_id) {
+                tmp.datatype_name = datatype[i].datatype_name;
+                tmp.datatype_is_fixed = datatype[i].datatype_is_fixed;
+                tmp.datatype_is_quotation_mark = datatype[i].datatype_is_quotation_mark;
+                break;
+            }
+        }
+        tmp.field_len = $('#field_len').val();
+        tmp.field_default = $('#field_default').val();
+        if ($('#field_pk').is(':checked')) {
+            tmp.field_pk = 1;
+        } else {
+            tmp.field_pk = 0;
+        }
+        if ($('#field_null').is(':checked')) {
+            tmp.field_null = 1;
+        } else {
+            tmp.field_null = 0;
+        }
+        if ($('#field_auto').is(':checked')) {
+            tmp.field_auto = 1;
+        } else {
+            tmp.field_auto = 0;
+        }
+
+        if ($('#field_unsigned').is(':checked')) {
+            tmp.field_unsigned = 1;
+        } else {
+            tmp.field_unsigned = 0;
+        }
+
+        if ($('#field_zero').is(':checked')) {
+            tmp.field_zero = 1;
+        } else {
+            tmp.field_zero = 0;
+        }
+        table_data.field.push(tmp);
+        $('#myModal').modal('hide');
+        $("#field_List").bootstrapTable('load', table_data.field);
+    });
+</script>
 </body>
 </html>

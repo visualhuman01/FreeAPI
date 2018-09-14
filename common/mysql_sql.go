@@ -1,13 +1,11 @@
 package common
 
-import "strconv"
-
 type MysqlSQL struct {
 }
 
-func (p *MysqlSQL)DropTable(tabname string) string {
+func (p *MysqlSQL) DropTable(tabname string) string {
 	sqlstr := "drop table if exists " + tabname + ";"
-	return  sqlstr
+	return sqlstr
 }
 func (p *MysqlSQL) CreateTable(tabname string, field []map[string]interface{}) string {
 
@@ -17,7 +15,16 @@ func (p *MysqlSQL) CreateTable(tabname string, field []map[string]interface{}) s
 		sqlstr += v["field_name"].(string) + " " + v["datatype_name"].(string)
 		c_int := v["datatype_is_fixed"].(int)
 		if c_int == 0 {
-			sqlstr += "(" + strconv.Itoa(v["field_len"].(int)) + ")"
+			_, str, _ := GetJsonVal(v["field_len"])
+			sqlstr += "(" + str + ")"
+		}
+		if (v["field_default"] != nil && v["field_default"].(string) != "") {
+			c_int = v["datatype_is_quotation_mark"].(int)
+			if c_int == 0 {
+				sqlstr += " default " + v["field_default"].(string)
+			} else {
+				sqlstr += " default '" + v["field_default"].(string) + "'"
+			}
 		}
 		c_int = v["field_null"].(int)
 		if c_int == 0 {

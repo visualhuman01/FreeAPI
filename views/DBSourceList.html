@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <title>数据源列表</title>
 {{template "header.html"}}
-    <link href="bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
-    <script src="bootstrap-table/bootstrap-table.js"></script>
-    <script src="bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link href="/bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
+    <script src="/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
-<div id="toolbar" class="btn-group">
-    <button id="btn_add" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-    </button>
-    <button id="btn_build" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>生成
-    </button>
+{{template "Menu.html"}}
+<div class="container theme-showcase" role="main" id="vueapp" style="padding-top:5px">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="btn-group">
+                <button id="btn_add" type="button" class="btn btn-default">新增</button>
+                <button id="btn_build" type="button" class="btn btn-default">生成</button>
+            </div>
+            <table id="tb_List" data-filter-control="true"></table>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="AddSource" tabindex="-1" role="dialog" aria-labelledby="AddSourceLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="AddSourceLabel">新增</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -43,7 +48,8 @@
                 </div>
                 <div class="form-group">
                     <label for="source_database">库名称</label>
-                    <input type="text" name="source_database" class="form-control" id="source_database" placeholder="备注">
+                    <input type="text" name="source_database" class="form-control" id="source_database"
+                           placeholder="备注">
                 </div>
                 <div class="form-group">
                     <label for="source_uid">用户名</label>
@@ -59,13 +65,16 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
-                <button type="button" id="btn_add_submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                </button>
+                <button type="button" id="btn_add_submit" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                </button>
             </div>
         </div>
     </div>
 </div>
-<table id="tb_List" data-filter-control="true"></table>
 <script>
     $(function () {
         var $table = $("#tb_List");
@@ -107,7 +116,7 @@
                     field: 'source_status',
                     title: '状态',
                     formatter: function (value, row, index) {
-                        return value == 0 ? "停用" : "启用";
+                        return E_Status[value]
                     }
                 }, {
                     field: 'source_createtime',
@@ -124,19 +133,21 @@
             ]
         });
     });
+
     function actionFormatter(value, row, index) {
         var formatValue = '';
         formatValue += '<a class="info" href="#">查看</a>|<a class="edit" href="#">编辑</a>';
         return formatValue;
     }
+
     var selectdata = null;
     //表格  - 操作 - 事件
     window.actionEvents = {
         'click .edit': function (e, value, row, index) {
-            window.location.href = "/Home/RoleInfo?t=1&id=" + row['id'];
+            window.location.href = "/tableList/" + row['source_id'];
         },
         'click .info': function (e, value, row, index) {
-            window.location.href = "/Home/RoleInfo?t=2&id=" + row['id'];
+            window.location.href = "/tableList/" + row['source_id'];
         }
     }
     $("#btn_add").click(function () {
@@ -176,7 +187,7 @@
             contentType: "application/json",
             dataType: 'json',
             success: function (res) {
-                if(res.Code == 200)
+                if (res.Code == 200)
                     window.location.reload();
                 else
                     alert(res.Msg)

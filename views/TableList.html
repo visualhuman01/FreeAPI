@@ -2,9 +2,189 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>数据表</title>
+{{template "header.html"}}
+    <link href="/bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
+    <script src="/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
-$END$
+{{template "Menu.html"}}
+<div class="container theme-showcase" role="main" id="vueapp" style="padding-top:5px">
+    <div class="form-horizontal">
+        <div class="form-group pre-scrollable" style="max-height:600px;">
+            <div class="btn-group">
+                <button id="btn_add_table" type="button" class="btn btn-default">新增</button>
+            </div>
+            <table id="table_List" data-filter-control="true"></table>
+        </div>
+        <div class="form-group pre-scrollable" style="max-height:600px;">
+            <table id="field_List" data-filter-control="true"></table>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var $table1 = $("#table_List");
+        $table1.bootstrapTable({
+            url: '/tableList',
+            method: 'post', //请求方式（*）
+            striped: true,
+            sidePagenation: 'server',
+            idField: 'table_id',
+            queryParams: tab1_queryParams,
+            columns: [
+                {
+                    field: 'table_name',
+                    title: '表名称'
+                }, {
+                    field: 'table_des',
+                    title: '备注'
+                }, {
+                    field: 'table_status',
+                    title: '状态',
+                    formatter: function (value, row, index) {
+                        return E_Status[value];
+                    }
+                }, {
+                    field: 'table_createtime',
+                    title: '创建时间'
+                }, {
+                    field: 'table_buildtime',
+                    title: '最后生成时间'
+                }, {
+                    title: '操作',
+                    formatter: 'tab1_actionFormatter',
+                    events: 'actionEvents',
+                    align: 'center'
+                }
+            ]
+        });
+        var $table2 = $("#field_List");
+        $table2.bootstrapTable({
+            idField: 'table_id',
+            columns: [
+                {
+                    field: 'field_name',
+                    title: '字段名称'
+                }, {
+                    field: 'datatype_name',
+                    title: '字段类型'
+                }, {
+                    field: 'field_len',
+                    title: '字段长度'
+                }, {
+                    field: 'field_default',
+                    title: '默认值'
+                }, {
+                    field: 'field_pk',
+                    title: '主键',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_null',
+                    title: '允许为空',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_auto',
+                    title: '自动编号',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_unsigned',
+                    title: '无符号',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_zero',
+                    title: '从零开始',
+                    formatter: function (value, row, index) {
+                        return E_Bool[value];
+                    }
+                }, {
+                    field: 'field_status',
+                    title: '状态',
+                    formatter: function (value, row, index) {
+                        return E_Status[value];
+                    }
+                }, {
+                    field: 'field_createtime',
+                    title: '创建时间'
+                }, {
+                    field: 'field_updatetime',
+                    title: '最后修改时间'
+                }, {
+                    title: '操作',
+                    formatter: 'tab2_actionFormatter',
+                    events: 'actionEvents',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+
+    $("#btn_add_table").click(function () {
+        window.location.href = "/addtable/" +{{.source_id}}
+    });
+
+    function tab1_queryParams(params) {
+        var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            sid:{{.source_id}}
+        };
+        return temp;
+    };
+
+    function tab1_actionFormatter(value, row, index) {
+        var formatValue = '';
+        formatValue += '<a class="field_view" href="#">查看字段</a>|<a class="build" href="#">重新生成</a>';
+        return formatValue;
+    }
+
+    function tab2_actionFormatter(value, row, index) {
+        var formatValue = '';
+        formatValue += '<a class="field_view" href="#">编辑</a>';
+        return formatValue;
+    }
+
+    //表格  - 操作 - 事件
+    window.actionEvents = {
+        'click .field_view': function (e, value, row, index) {
+            var data = {};
+            data.tid = row["table_id"];
+            $.ajax({
+                type: "post",
+                url: "/fieldList",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function (json) {
+                    $("#field_List").bootstrapTable('load', json);
+                }
+            });
+        },
+        'click .build': function (e, value, row, index) {
+            var data = {};
+            data.table_id = row["table_id"];
+            data.source_id = row["source_id"];
+            $.ajax({
+                type: "post",
+                url: "/buildtable",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function (json) {
+                    if (json.Code == 200) {
+                        window.location.reload();
+                    } else {
+                        alert(json.Msg);
+                    }
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

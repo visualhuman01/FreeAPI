@@ -2,9 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>接口列表</title>
+{{template "header.html"}}
+    <link href="bootstrap-table/bootstrap-table.css" rel="stylesheet"/>
+    <script src="bootstrap-table/bootstrap-table.js"></script>
+    <script src="bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
-$END$
+{{template "Menu.html"}}
+<div class="container theme-showcase" role="main" id="vueapp" style="padding-top:5px">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="btn-group">
+                <button id="btn_add" type="button" class="btn btn-default">新增</button>
+            </div>
+            <table id="tb_List" data-filter-control="true"></table>
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    $(function () {
+        var $table = $("#tb_List");
+        $table.bootstrapTable({
+            url: '/interfaceList',
+            method: 'post', //请求方式（*）
+            striped: true,
+            sidePagenation: 'server',
+            idField: 'interface_id',
+            columns: [
+                {
+                    field: 'ck',
+                    checkbox: true
+                }, {
+                    field: 'interface_name',
+                    title: '接口名称'
+                }, {
+                    field: 'interface_method',
+                    title: '传输方式',
+                    formatter: function (value, row, index) {
+                        return E_Method[value];
+                    }
+                }, {
+                    field: 'interface_is_crossdomain',
+                    title: '是否允许跨域',
+                    formatter: function (value, row, index) {
+                        return value == 0 ? "不允许" : "允许"
+                    }
+                }, {
+                    field: 'interface_input_type',
+                    title: '参数类型'
+                }, {
+                    field: 'interface_output_type',
+                    title: '返回值类型'
+                }, {
+                    field: 'interface_status',
+                    title: '状态',
+                    formatter: function (value, row, index) {
+                        return E_Status[value];
+                    }
+                }, {
+                    field: 'interface_createtime',
+                    title: '创建时间'
+                }, {
+                    field: 'interface_updatetime',
+                    title: '最后修改时间'
+                }, {
+                    title: '操作',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    align: 'center'
+                }
+            ]
+        });
+    });
+
+    function actionFormatter(value, row, index) {
+        var formatValue = '';
+        formatValue += '<a class="info" href="#">查看</a>|<a class="edit" href="#">编辑</a>';
+        return formatValue;
+    }
+
+    var selectdata = null;
+    //表格  - 操作 - 事件
+    window.actionEvents = {
+        'click .edit': function (e, value, row, index) {
+            window.location.href = "/Home/RoleInfo?t=1&id=" + row['id'];
+        },
+        'click .info': function (e, value, row, index) {
+            window.location.href = "/Home/RoleInfo?t=2&id=" + row['id'];
+        }
+    }
+    $("#btn_add").click(function () {
+        $('#AddSource').modal();
+    });
+    $("#btn_build").click(function () {
+        var data = {}
+        data.source_id = 1
+        $.ajax({
+            type: 'POST',
+            url: '/builddb',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (res) {
+                alert(res)
+            },
+            error: function (err) {
+                alert(err)
+            }
+        });
+    });
+</script>
 </html>

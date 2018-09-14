@@ -32,6 +32,11 @@ func (p *ApiEngine) loadInterface() {
 	p.ApiInterface = make(map[string]common.Api_Interface)
 	for _, v := range data {
 		interface_config := common.Api_Interface{Id: v["interface_id"].(int), Method: v["interface_method"].(int)}
+		if v["interface_is_crossdomain"].(int) == 0{
+			interface_config.IsCrossdomain = false
+		}else{
+			interface_config.IsCrossdomain = true
+		}
 		interface_config.Input = make([]common.Api_Input, 0)
 		interface_config.Operate = make(map[int]common.Api_Operate)
 		p.ApiInterface[v["interface_name"].(string)] = interface_config
@@ -374,7 +379,7 @@ func (p *ApiEngine) ApiOperate(api common.Api_Interface, dat map[string]interfac
 		sqlstr := ""
 		for _, vv := range api.Input {
 			tmpdat := dat[vv.Name]
-			t, str, strarr := getJsonVal(tmpdat)
+			t, str, strarr := common.GetJsonVal(tmpdat)
 			if (t == 1) {
 				sqlstr = strings.Replace(v.SqlFormat, vv.GetSymbol(), str, -1)
 			} else {
@@ -396,27 +401,4 @@ func (p *ApiEngine) ApiOperate(api common.Api_Interface, dat map[string]interfac
 	}
 	return operate_output, nil
 }
-func getJsonVal(jsondata interface{}) (int, string, []string) {
-	var t int
-	var res_str string
-	var res_strarray []string
-	switch jsondata.(type) {
-	case string:
-		t = 1
-		res_str = jsondata.(string)
-		break
-	case float64:
-		t = 1
-		res_str = strconv.FormatFloat(jsondata.(float64), 'f', -1, 64)
-		break
-	case []interface{}:
-		t = 2
-		tmp := jsondata.([]interface{})
-		res_strarray = make([]string, len(tmp))
-		for k, v := range tmp {
-			_, s, _ := getJsonVal(v)
-			res_strarray[k] = s
-		}
-	}
-	return t, res_str, res_strarray
-}
+

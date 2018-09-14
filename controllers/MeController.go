@@ -84,6 +84,104 @@ func GetDBSourceListController(ctx iris.Context) {
 	}
 	ctx.JSON(data)
 }
+func GetTableListController(ctx iris.Context) {
+	m := make(map[string]interface{})
+	ctx.ReadJSON(&m)
+	_, str, _ := common.GetJsonVal(m["sid"])
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
+	sqlstr := "select * from dbconfig_table where source_id = " + str
+	data, err := db.QueryData(sqlstr)
+	if err != nil {
+		println(err.Error())
+	}
+	ctx.JSON(data)
+}
+func GetFieldListController(ctx iris.Context) {
+	m := make(map[string]interface{})
+	ctx.ReadJSON(&m)
+	_, str, _ := common.GetJsonVal(m["tid"])
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
+	sqlstr := "select a.*,b.datatype_name from dbconfig_field a left join dbconfig_datatype b on a.datatype_id = b.datatype_id where a.table_id = " + str
+	data, err := db.QueryData(sqlstr)
+	if err != nil {
+		println(err.Error())
+	}
+	ctx.JSON(data)
+}
+func GetInterfaceListController(ctx iris.Context) {
+	m := model.DBSource_Param{}
+	ctx.ReadJSON(&m)
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
+	sqlstr := "select * from apiconfig_interface"
+	data, err := db.QueryData(sqlstr)
+	if err != nil {
+		println(err.Error())
+	}
+	ctx.JSON(data)
+}
+func AddTableViewController(ctx iris.Context) {
+	sid := ctx.Params().Get("sid")
+	ctx.ViewData("source_id", sid)
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
+	sqlstr := "select * from dbconfig_datatype"
+	data, err := db.QueryData(sqlstr)
+	if err != nil {
+		println(err.Error())
+	}
+	ctx.ViewData("datatype", data)
+	ctx.View("AddTable.html")
+}
+func AddTableController(ctx iris.Context) {
+	res := model.Result_Data{Code: 200, Msg: "ok"}
+	m := model.Table_Param{}
+	ctx.ReadJSON(&m)
+	//先建表
+	sid, err := strconv.Atoi(m.Source_id)
+	if err != nil {
+		res.Code = 500
+		res.Msg = "Source_id error"
+		ctx.JSON(res)
+		return
+	}
+	connstr_tmp := common.DBSource_Config[sid]
+	db_tmp := common.MysqlOperate{DBtype: connstr_tmp.Dbtype, ConnStr: connstr_tmp.GetDbConnStr()}
+	mysql_sql := common.MysqlSQL{}
+	sqlstr := mysql_sql.DropTable(m.Table_name)
+	db_tmp.Exec(sqlstr)
+	field := make([]map[string]interface{}, 0)
+	for _, v := range m.Field {
+		r := common.Struct2Map(v,true)
+		field = append(field, r)
+	}
+	sqlstr = mysql_sql.CreateTable(m.Table_name, field)
+	db_tmp.Exec(sqlstr)
+	//再插库
+	connstr := common.Stu_Config.DB.GetDbConnStr()
+	db := common.MysqlOperate{DBtype: common.Stu_Config.DB.Dbtype, ConnStr: connstr}
+	sqlstr = "insert into dbconfig_table(source_id,table_name,table_des,table_status,table_createtime,table_buildtime)" +
+		" values(" + m.Source_id + ",'" + m.Table_name + "','" + m.Table_des + "',1,now(),now())"
+	id := db.InsertData(sqlstr)
+	for _, v := range m.Field {
+		sqlstr = "insert into dbconfig_field(table_id,field_name,datatype_id,field_len,field_default,field_pk,field_null,field_auto,field_unsigned,field_zero,field_status,field_createtime,field_updatetime)" +
+			"values(" + strconv.FormatInt(id, 10) + ",'" +
+			"" + v.Field_name + "'," +
+			"" + v.Datatype_id + "," +
+			"" + v.Field_len + "," +
+			"'" + v.Field_default + "'," +
+			"" + strconv.Itoa(v.Field_pk) + "," +
+			"" + strconv.Itoa(v.Field_null) + "," +
+			"" + strconv.Itoa(v.Field_auto) + "," +
+			"" + strconv.Itoa(v.Field_unsigned) + "," +
+			"" + strconv.Itoa(v.Field_zero) + "," +
+			"1,now(),now())"
+		db.Exec(sqlstr)
+	}
+	ctx.JSON(res)
+}
 func BuildDBController(ctx iris.Context) {
 	res := model.Result_Data{Code: 200, Msg: "ok"}
 	m := model.BuildDB_Param{}
@@ -103,7 +201,7 @@ func BuildDBController(ctx iris.Context) {
 	for _, v := range data1 {
 		tabid := v["table_id"].(int)
 		tabname := v["table_name"].(string)
-		sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed from dbconfig_field a inner join dbconfig_datatype b " +
+		sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed,b.datatype_is_quotation_mark from dbconfig_field a inner join dbconfig_datatype b " +
 			"on a.datatype_id = b.datatype_id where a.table_id = " + strconv.Itoa(tabid)
 		data2, err := db.QueryData(sqlstr)
 		if err != nil {
@@ -117,6 +215,8 @@ func BuildDBController(ctx iris.Context) {
 		db_tmp.Exec(sqlstr)
 		sqlstr = mysql_sql.CreateTable(tabname, data2)
 		db_tmp.Exec(sqlstr)
+		sqlstr = "update dbconfig_table set table_buildtime = now() where table_id = " + strconv.Itoa(tabid)
+		db.Exec(sqlstr)
 	}
 	ctx.JSON(res)
 }
@@ -137,7 +237,7 @@ func BuildTableController(ctx iris.Context) {
 		return
 	}
 	tabname := data1["table_name"].(string)
-	sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed from dbconfig_field a inner join dbconfig_datatype b " +
+	sqlstr = "select a.*,b.datatype_name,b.datatype_is_fixed,b.datatype_is_quotation_mark from dbconfig_field a inner join dbconfig_datatype b " +
 		"on a.datatype_id = b.datatype_id where a.table_id = " + strconv.Itoa(m.Table_id)
 	data2, err := db.QueryData(sqlstr)
 	if err != nil {
@@ -151,17 +251,19 @@ func BuildTableController(ctx iris.Context) {
 	db_tmp.Exec(sqlstr)
 	sqlstr = mysql_sql.CreateTable(tabname, data2)
 	db_tmp.Exec(sqlstr)
+	sqlstr = "update dbconfig_table set table_buildtime = now() where table_id = " + strconv.Itoa(m.Table_id)
+	db.Exec(sqlstr)
 	ctx.JSON(res)
 }
 func APIController(ctx iris.Context) {
-	ctx.ResponseWriter().Header().Add("Access-Control-Allow-Origin", "*")
-	ctx.ResponseWriter().Header().Add("Access-Control-Allow-Headers", "x-requested-with")
-	ctx.ResponseWriter().Header().Add("content-type", "application/json")
-	//ctx.ResponseWriter().Header().Add("Access-Control-Allow-Credentials","true")
-	//ctx.ResponseWriter().Header().Add("Set-Cookie","company_auth=8A86YEGQQsS%252BJMXstQTIpqB78LBCLf9uaPb%252BV62h%2f6bHHMUdMx4Ge0EGl4XY2W4IZb9PCWzQon%2fxHZf8XZM8Y30BJHEB4%2ffAitm%2fwB6laKR3lhpminXvrcL8L9p2b4z%2fAaXKyzK3mnhEC%2fi6i7hc3aqTNVoVc5w9nT2PE%252BfpHcf8EFsKIXYHXg%3d%3d; expires=Sat, 08-Sep-2018 08:23:03 GMT; path=/")
 	res := model.Result_Data{Code: 200, Msg: "ok"}
 	aid := ctx.Params().Get("aid")
 	api := apiengine.Apiengine.ApiInterface[aid]
+	if api.IsCrossdomain {
+		ctx.ResponseWriter().Header().Add("Access-Control-Allow-Origin", "*")
+		ctx.ResponseWriter().Header().Add("Access-Control-Allow-Headers", "x-requested-with")
+		ctx.ResponseWriter().Header().Add("content-type", "application/json")
+	}
 	rawData, err := ioutil.ReadAll(ctx.Request().Body)
 	if err != nil {
 		res.Code = 500
